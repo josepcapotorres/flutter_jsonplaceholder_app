@@ -13,6 +13,7 @@ class UserAlbumsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    final userName = args.containsKey("user_name") ? args["user_name"] : "";
 
     if (!_requestExecuted) {
       _albumsBloc.getUserAlbums(args["user_id"]);
@@ -20,7 +21,7 @@ class UserAlbumsView extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: "User xxx albums"),
+      appBar: CustomAppBar(title: "$userName albums"),
       body: StreamBuilder(
         stream: _albumsBloc.userAlbumsStream,
         builder: (context, AsyncSnapshot<List<AlbumModel>> snapshot) {

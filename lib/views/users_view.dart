@@ -159,7 +159,7 @@ class _UsersListView extends StatelessWidget {
             context,
             UserDetailsView.routeName,
             arguments: {
-              "user_id": _filteredUserList[i].id,
+              "user_id": _filteredUserList[i].idUser,
               "user_name": _filteredUserList[i].name,
             },
           );

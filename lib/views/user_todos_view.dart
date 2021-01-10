@@ -18,6 +18,7 @@ class _UserTodosViewState extends State<UserTodosView> {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    final userName = args.containsKey("user_name") ? args["user_name"] : "";
 
     if (!_requestExecuted) {
       _userTodosBloc.getUserTodos(args["user_id"]);
@@ -25,7 +26,7 @@ class _UserTodosViewState extends State<UserTodosView> {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: "User TODOs"),
+      appBar: CustomAppBar(title: "$userName TODOs"),
       body: StreamBuilder(
         stream: _userTodosBloc.userTodosStream,
         builder: (_, AsyncSnapshot<List<UserTodosModel>> snapshot) {

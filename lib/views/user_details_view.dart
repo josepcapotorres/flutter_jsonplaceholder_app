@@ -16,9 +16,11 @@ class UserDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    final userName = args.containsKey("user_name") ? args["user_name"] : "";
+    final userId = args.containsKey("user_id") ? args["user_id"] : 0;
 
     if (!_requestExecuted) {
-      _userBloc.getUser(args["user_id"]);
+      _userBloc.getUser(userId);
       _requestExecuted = true;
     }
 
@@ -27,7 +29,9 @@ class UserDetailsView extends StatelessWidget {
         title: "Details about ${args['user_name']}",
         actions: [
           PopupMenuButton<int>(
-            onSelected: (val) => _manageMenuOptionClick(context, val, args["user_id"]),
+            onSelected: (val) => _manageMenuOptionClick(
+              context, val, args["user_id"], userName,
+            ),
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: Text("Posts"),
@@ -82,7 +86,8 @@ class UserDetailsView extends StatelessWidget {
     );
   }
 
-  void _manageMenuOptionClick(BuildContext context, int val, int userId) {
+  void _manageMenuOptionClick(BuildContext context, int val, 
+    int userId, String userName) {
     switch (val) {
       case 1:
         Navigator.pushNamed(
@@ -90,6 +95,7 @@ class UserDetailsView extends StatelessWidget {
           UserPostsView.routeName,
           arguments: {
             "user_id": userId,
+            "user_name": userName,
           }
         );
         break;
@@ -99,6 +105,7 @@ class UserDetailsView extends StatelessWidget {
           UserAlbumsView.routeName,
           arguments: {
             "user_id": userId,
+            "user_name": userName,
           }
         );
         break;
@@ -108,6 +115,7 @@ class UserDetailsView extends StatelessWidget {
           UserTodosView.routeName,
           arguments: {
             "user_id": userId,
+            "user_name": userName,
           }
         );
         
@@ -118,6 +126,7 @@ class UserDetailsView extends StatelessWidget {
           UserPostsView.routeName,
           arguments: {
             "user_id": userId,
+            "user_name": userName,
           }
         );
         break;

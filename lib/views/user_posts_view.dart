@@ -13,6 +13,7 @@ class UserPostsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    final userName = args.containsKey("user_name") ? args["user_name"] : "";
 
     if (!_requestExecuted) {
       _postsBloc.getUserPosts(args["user_id"]);
@@ -20,7 +21,7 @@ class UserPostsView extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: "User xxx posts"),
+      appBar: CustomAppBar(title: "$userName posts"),
       body: StreamBuilder(
         stream: _postsBloc.postsStream,
         builder: (context, AsyncSnapshot<List<PostModel>> snapshot) {
@@ -36,12 +37,8 @@ class UserPostsView extends StatelessWidget {
                       trailing: Icon(Icons.keyboard_arrow_right),
                       onTap: () {
                         Navigator.pushNamed(
-                          context, 
-                          PostsCommentsView.routeName,
-                          arguments: {
-                            "post_id": snapshot.data[i].id
-                          }
-                        );
+                            context, PostsCommentsView.routeName,
+                            arguments: {"post_id": snapshot.data[i].id});
                       },
                     ),
                   );
