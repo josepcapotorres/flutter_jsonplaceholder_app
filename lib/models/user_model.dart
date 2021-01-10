@@ -1,5 +1,6 @@
 class UserModel {
-  int id;
+  //int id;
+  int idUser; // id field at JsonPlaceholder
   String name;
   String userName;
   String email;
@@ -9,9 +10,9 @@ class UserModel {
   //_Company company;
 
   UserModel.fromMap(Map<String, dynamic> map) {
-    id = map["id"];
+    idUser = map["id"];
     name = map["name"];
-    userName = map["userName"];
+    userName = map["username"];
     email = map["email"];
     //address = _Address.fromMap(map["address"]);
     phone = map["phone"];
@@ -20,7 +21,7 @@ class UserModel {
   }
 
   Map<String, dynamic> toMap() => {
-        "id": id,
+        "idUser": idUser,
         "name": name,
         "email": email,
         "phone": phone,
