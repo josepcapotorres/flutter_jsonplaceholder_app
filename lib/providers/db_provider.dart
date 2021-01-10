@@ -26,32 +26,34 @@ class DBProvider {
     final path = join(documentsDirectory.path, "jsonplaceholder.db");
 
     // Create database
-    return await openDatabase(
-      path, 
-      version: 2, 
-      onOpen: (db) {},
-      onCreate: (Database db, int version) async {
+    return await openDatabase(path, version: 3, onOpen: (db) {},
+        onCreate: (Database db, int version) async {
       await db.execute('''
-        CREATE TABLE user(
-          id INTEGER PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS user(
+          id INTEGER,
+          idUser INTEGER,
           name TEXT,
           email TEXT,
-          phone TEXT
+          phone TEXT,
+          PRIMARY KEY (id, idUser)
         );
       ''');
-    },
-    onUpgrade: (Database db, int oldVersion, int newVersion) async {
-      if (oldVersion < newVersion){
+
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS post(
+          id INTEGER PRIMARY KEY,
+          userId INTEGER,
+          title TEXT,
+          body TEXT,
+          FOREIGN KEY (userId) REFERENCES user(id)
+        );
+      ''');
+    }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
+      if (oldVersion < newVersion) {
         await db.execute("""
-          CREATE TABLE IF NOT EXISTS post (
-            id INTEGER PRIMARY KEY,
-            userId INTEGER,
-            title TEXT,
-            body TEXT,
-            FOREIGN KEY (userId) REFERENCES user(id)
-          )
+          ALTER TABLE user ADD COLUMN idUser INTEGER PRIMARY KEY;
           """);
-        }
+      }
     });
   }
 
@@ -66,7 +68,7 @@ class DBProvider {
 
   Future<UserModel> getUserById(int userId) async {
     final db = await database;
-    final res = await db.query("user", where: "id = ?", whereArgs: [userId]);
+    final res = await db.query("user", where: "idUser = ?", whereArgs: [userId]);
 
     return res.isNotEmpty ? UserModel.fromMap(res.first) : null;
   }
@@ -75,12 +77,9 @@ class DBProvider {
     int res;
     final db = await database;
 
-    final UserModel userOnDb = await getUserById(newUser.id);
+    final UserModel userOnDb = await getUserById(newUser.idUser);
 
     if (userOnDb == null) {
-      // Not found on the database
-      newUser.id = null;
-
       res = await db.insert("user", newUser.toMap());
     } else {
       res = 0;
@@ -94,12 +93,9 @@ class DBProvider {
 
     newUsers.forEach((e) async {
       try {
-        final UserModel userOnDb = await getUserById(e.id);
+        final UserModel userOnDb = await getUserById(e.idUser);
 
         if (userOnDb == null) {
-          // Not found on the database
-          e.id = null;
-
           await db.insert("user", e.toMap());
         }
       } catch (e) {
@@ -110,7 +106,8 @@ class DBProvider {
 
   Future<List<PostModel>> getPosts(int userId) async {
     final db = await database;
-    final res = await db.query("post", where: "userId = ?", whereArgs: [userId]);
+    final res =
+        await db.query("post", where: "userId = ?", whereArgs: [userId]);
 
     return res.isNotEmpty
         ? res.map((e) => PostModel.fromMap(e)).toList()
