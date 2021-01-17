@@ -20,6 +20,7 @@ The app has the following features:
 - RefreshIndicator
 
 ## Screenshots
+<p float="left">
 <img src="screenshots/screenshot_1.jpg" alt="Screenshot 1" width="250" height="auto">
 <img src="screenshots/screenshot_2.jpg" alt="Screenshot 2" width="250" height="auto">
 <img src="screenshots/screenshot_3.jpg" alt="Screenshot 3" width="250" height="auto">
@@ -33,3 +34,4 @@ The app has the following features:
 <img src="screenshots/screenshot_11.jpg" alt="Screenshot 11" width="250" height="auto">
 <img src="screenshots/screenshot_12.jpg" alt="Screenshot 12" width="250" height="auto">
 <img src="screenshots/screenshot_13.jpg" alt="Screenshot 13" width="250" height="auto">
+</p>
