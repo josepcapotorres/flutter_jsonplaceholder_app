@@ -2,7 +2,7 @@ import 'package:jsonplaceholder_app/interfaces/ILogeable.dart';
 
 class GoogleLogin implements ILoggeable {
   @override
-  Future<bool> login() async {
+  Future<bool> login(String email, String password) async {
     print("Google login done!");
 
     return true;
