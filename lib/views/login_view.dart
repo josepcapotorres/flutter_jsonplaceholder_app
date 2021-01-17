@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:jsonplaceholder_app/helpers/colors_helper.dart';
 import 'package:jsonplaceholder_app/helpers/crypto_helper.dart';
 import 'package:jsonplaceholder_app/helpers/format_helper.dart';
 import 'package:jsonplaceholder_app/interfaces/ILogeable.dart';
-import 'package:jsonplaceholder_app/models/login/custom_login.dart';
-import 'package:jsonplaceholder_app/models/login/facebook_login.dart';
-import 'package:jsonplaceholder_app/models/login/google_login.dart';
+import 'package:jsonplaceholder_app/providers/login/custom_login.dart';
+import 'package:jsonplaceholder_app/providers/login/facebook_login.dart';
+import 'package:jsonplaceholder_app/providers/login/google_login.dart';
 import 'package:jsonplaceholder_app/shared_prefs/user_preferences.dart';
 import 'package:jsonplaceholder_app/views/users_view.dart';
 import 'package:jsonplaceholder_app/widgets/custom_appbar.dart';
 import 'package:jsonplaceholder_app/widgets/custom_button.dart';
 import 'package:jsonplaceholder_app/widgets/custom_text_form_field.dart';
+import 'package:jsonplaceholder_app/widgets/custom_toast.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   static const routeName = "login_view";
 
-  /*final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();*/
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   String _email = "";
   String _password = "";
   final _userPrefs = UserPreferences();
@@ -101,14 +104,14 @@ class LoginView extends StatelessWidget {
     if (formState.validate()) {
       formState.save();
 
-      final loginResult = await _iLoggeable.login();
+      final loginResult = await _iLoggeable.login(_email, _password);
 
       if (loginResult) {
         _userPrefs.userLogged = true;
         Navigator.pushReplacementNamed(context, UsersView.routeName);
       } else {
         _userPrefs.userLogged = false;
-        // TODO: Show a Toast Widget, for example
+        CustomToast("Wrong email or password");
       }
     }
   }
@@ -117,7 +120,6 @@ class LoginView extends StatelessWidget {
 class _FacebookLoginBtn extends StatelessWidget {
   final UserPreferences userPrefs;
   final VoidCallback onPressed;
-  ILoggeable loggeable;
 
   _FacebookLoginBtn({@required this.userPrefs, @required this.onPressed});
 
@@ -139,7 +141,6 @@ class _FacebookLoginBtn extends StatelessWidget {
 class _GoogleLoginBtn extends StatelessWidget {
   final UserPreferences userPrefs;
   final VoidCallback onPressed;
-  ILoggeable loggeable;
 
   _GoogleLoginBtn({@required this.userPrefs, @required this.onPressed});
 

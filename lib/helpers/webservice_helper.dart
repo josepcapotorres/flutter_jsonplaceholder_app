@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'package:jsonplaceholder_app/widgets/custom_toast.dart';
 
 class WebserviceHelper {
   static String _httpProtocol;
@@ -73,7 +72,7 @@ class WebserviceHelper {
 
       return response.body;
     } catch (e) {
-      // TODO: show Toast
+      CustomToast("Error found: $e");
       return null;
     }
   }
@@ -90,7 +89,7 @@ class WebserviceHelper {
 
       return response.body;
     } catch (e) {
-      // TODO: show Toast
+      CustomToast("Error found: $e");
       return null;
     }
   }

@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:jsonplaceholder_app/bloc/post_comments_bloc.dart';
+import 'package:jsonplaceholder_app/blocs/post_comments_bloc.dart';
 import 'package:jsonplaceholder_app/models/comment_model.dart';
 import 'package:jsonplaceholder_app/widgets/custom_appbar.dart';
 import 'package:jsonplaceholder_app/widgets/custom_no_results.dart';
 
-class PostsCommentsView extends StatelessWidget {
-  static const routeName = "posts_comments_view";
+class PostCommentsView extends StatefulWidget {
+  static const routeName = "post_comments_view";
+
+  @override
+  _PostCommentsViewState createState() => _PostCommentsViewState();
+}
+
+class _PostCommentsViewState extends State<PostCommentsView> {
   final _postCommentsBloc = PostCommentsBloc();
   bool _requestExecuted = false;
 
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    final userName = args.containsKey("user_name") ? args["user_name"] : "";
+    final postId = args.containsKey("post_id") ? args["post_id"] : 0;
 
     if (!_requestExecuted) {
-          _postCommentsBloc.getPostComments(args["post_id"]);
+          _postCommentsBloc.getPostComments(postId);
       _requestExecuted = true;
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: "User xxx post comments"),
+      appBar: CustomAppBar(title: "User $userName post comments"),
       body: StreamBuilder(
-        stream: _postCommentsBloc.postCommentsSteam,
+        stream: _postCommentsBloc.commentsStream,
         builder: (context, AsyncSnapshot<List<CommentModel>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.isNotEmpty) {

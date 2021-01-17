@@ -16,7 +16,8 @@ class UserTodosBloc {
   factory UserTodosBloc() => _instance;
 
   Future getUserTodos(int userId) async {
-    final userTodosList = await _userTodosProvider.getUserTodos(userId);
+    List<UserTodosModel> userTodosList = 
+      await _userTodosProvider.getUserTodos(userId);
 
     _userTodosController.sink.add(userTodosList);
   }

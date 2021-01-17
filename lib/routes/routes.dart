@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jsonplaceholder_app/views/album_photos_view.dart';
 import 'package:jsonplaceholder_app/views/login_view.dart';
-import 'package:jsonplaceholder_app/views/posts_comments_view.dart';
+import 'package:jsonplaceholder_app/views/post_comments_view.dart';
 import 'package:jsonplaceholder_app/views/user_albums_view.dart';
 import 'package:jsonplaceholder_app/views/user_details_view.dart';
 import 'package:jsonplaceholder_app/views/user_posts_view.dart';
@@ -15,7 +15,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     UserDetailsView.routeName: (_) => UserDetailsView(),
     UserPostsView.routeName: (_) => UserPostsView(),
     UserAlbumsView.routeName: (_) => UserAlbumsView(),
-    PostsCommentsView.routeName: (_) => PostsCommentsView(),
+    PostCommentsView.routeName: (_) => PostCommentsView(),
     AlbumPhotosView.routeName: (_) => AlbumPhotosView(),
     UserTodosView.routeName: (_) => UserTodosView(),
   };

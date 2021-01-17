@@ -1,31 +1,31 @@
 class UserModel {
   //int id;
   int idUser; // id field at JsonPlaceholder
-  String name;
-  String userName;
+  String name; // First name
   String email;
-  //_Address address;
+  _Address address;
   String phone;
   String website;
-  //_Company company;
+  _Company company;
+
+  String get firstName => name.split(" ").first;
 
   UserModel.fromMap(Map<String, dynamic> map) {
-    idUser = map["id"];
+    idUser = map["id"] == null ? map["userId"] : map["id"];
     name = map["name"];
-    userName = map["username"];
     email = map["email"];
-    //address = _Address.fromMap(map["address"]);
+    address = map.containsKey("address") ? _Address.fromMap(map["address"]) : null;
+    company = map.containsKey("company") ? _Company.fromMap(map["company"]) : null;
     phone = map["phone"];
     website = map["website"];
-    //company = _Company.fromMap(map["company"]);
   }
 
   Map<String, dynamic> toMap() => {
-        "idUser": idUser,
-        "name": name,
-        "email": email,
-        "phone": phone,
-      };
+    "idUser": idUser,
+    "name": name,
+    "email": email,
+    "phone": phone,
+  };
 }
 
 class _Address {
@@ -50,7 +50,7 @@ class _Geo {
 
   _Geo.fromMap(Map<String, dynamic> map) {
     lat = map["lat"];
-    lon = map["lon"];
+    lon = map["lng"];
   }
 }
 

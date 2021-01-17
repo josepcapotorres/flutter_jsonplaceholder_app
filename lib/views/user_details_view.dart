@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jsonplaceholder_app/bloc/users_bloc.dart';
+import 'package:jsonplaceholder_app/blocs/users_bloc.dart';
 import 'package:jsonplaceholder_app/models/user_model.dart';
 import 'package:jsonplaceholder_app/views/user_posts_view.dart';
 import 'package:jsonplaceholder_app/views/user_todos_view.dart';
@@ -8,8 +8,14 @@ import 'package:jsonplaceholder_app/widgets/custom_no_results.dart';
 
 import 'user_albums_view.dart';
 
-class UserDetailsView extends StatelessWidget {
+class UserDetailsView extends StatefulWidget {
   static const routeName = "user_details_view";
+
+  @override
+  _UserDetailsViewState createState() => _UserDetailsViewState();
+}
+
+class _UserDetailsViewState extends State<UserDetailsView> {
   final _userBloc = UsersBloc();
   bool _requestExecuted = false;
 
@@ -20,7 +26,7 @@ class UserDetailsView extends StatelessWidget {
     final userId = args.containsKey("user_id") ? args["user_id"] : 0;
 
     if (!_requestExecuted) {
-      _userBloc.getUser(userId);
+      _userBloc.getUserById(userId);
       _requestExecuted = true;
     }
 

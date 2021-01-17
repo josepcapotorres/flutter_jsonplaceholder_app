@@ -16,5 +16,5 @@ class UserPreferences {
 
   bool get userLogged => _preferences.getBool('user_logged') ?? false;
 
-set userLogged(bool userLogged) => _preferences.setBool('user_logged', userLogged);
+  set userLogged(bool userLogged) => _preferences.setBool('user_logged', userLogged);
 }

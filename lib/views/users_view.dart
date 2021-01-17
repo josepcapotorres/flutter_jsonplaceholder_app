@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jsonplaceholder_app/bloc/users_bloc.dart';
+import 'package:jsonplaceholder_app/blocs/users_bloc.dart';
 import 'package:jsonplaceholder_app/helpers/colors_helper.dart';
 import 'package:jsonplaceholder_app/helpers/format_helper.dart';
 import 'package:jsonplaceholder_app/models/user_model.dart';
 import 'package:jsonplaceholder_app/views/user_details_view.dart';
 import 'package:jsonplaceholder_app/widgets/custom_appbar.dart';
+import 'package:jsonplaceholder_app/widgets/custom_drawer.dart';
 import 'package:jsonplaceholder_app/widgets/custom_no_results.dart';
 
 class UsersView extends StatefulWidget {
@@ -33,6 +34,7 @@ class _UsersViewState extends State<UsersView> {
       appBar: CustomAppBar(
         title: "Users list",
       ),
+      drawer: CustomDrawer(),
       body: RefreshIndicator(
         onRefresh: () => _userBloc.forceGetUsers(), // It forces to download the last news
         child: StreamBuilder(
@@ -160,7 +162,7 @@ class _UsersListView extends StatelessWidget {
             UserDetailsView.routeName,
             arguments: {
               "user_id": _filteredUserList[i].idUser,
-              "user_name": _filteredUserList[i].name,
+              "user_name": _filteredUserList[i].firstName,
             },
           );
         },

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:jsonplaceholder_app/bloc/posts_bloc.dart';
+import 'package:jsonplaceholder_app/blocs/posts_bloc.dart';
 import 'package:jsonplaceholder_app/models/post_model.dart';
-import 'package:jsonplaceholder_app/views/posts_comments_view.dart';
+import 'package:jsonplaceholder_app/views/post_comments_view.dart';
 import 'package:jsonplaceholder_app/widgets/custom_appbar.dart';
 import 'package:jsonplaceholder_app/widgets/custom_no_results.dart';
 
-class UserPostsView extends StatelessWidget {
+class UserPostsView extends StatefulWidget {
   static const routeName = "user_posts_view";
+
+  @override
+  _UserPostsViewState createState() => _UserPostsViewState();
+}
+
+class _UserPostsViewState extends State<UserPostsView> {
   final _postsBloc = PostsBloc();
   bool _requestExecuted = false;
 
@@ -37,8 +43,12 @@ class UserPostsView extends StatelessWidget {
                       trailing: Icon(Icons.keyboard_arrow_right),
                       onTap: () {
                         Navigator.pushNamed(
-                            context, PostsCommentsView.routeName,
-                            arguments: {"post_id": snapshot.data[i].id});
+                          context, PostCommentsView.routeName,
+                          arguments: {
+                            "post_id": snapshot.data[i].postId,
+                            "user_name": userName,
+                          },
+                        );
                       },
                     ),
                   );

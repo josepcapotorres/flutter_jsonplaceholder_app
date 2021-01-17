@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jsonplaceholder_app/bloc/user_todos_bloc.dart';
+import 'package:jsonplaceholder_app/blocs/user_todos_bloc.dart';
 import 'package:jsonplaceholder_app/models/user_todos_model.dart';
 import 'package:jsonplaceholder_app/widgets/custom_appbar.dart';
 import 'package:jsonplaceholder_app/widgets/custom_no_results.dart';

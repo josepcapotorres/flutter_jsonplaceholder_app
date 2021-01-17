@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:jsonplaceholder_app/models/user_model.dart';
-import 'package:jsonplaceholder_app/providers/db_provider.dart';
 import 'package:jsonplaceholder_app/providers/users_provider.dart';
 
 class UsersBloc {
@@ -19,33 +18,19 @@ class UsersBloc {
   factory UsersBloc() => _instance;
 
   Future getUsers() async {
-    List<UserModel> usersList = await DBProvider.db.getUsers();
-
-    if (usersList == null || usersList.isEmpty) {
-      // If no results found, fetch them from the API
-      usersList = await _usersProvider.getUsers();
-      DBProvider.db.newUsers(usersList);
-    }
+    List<UserModel> usersList = await _usersProvider.getUsers();
 
     _usersController.sink.add(usersList);
   }
 
-  Future getUser(int userId) async {
-    UserModel userData = await DBProvider.db.getUserById(userId);
-
-    if (userData == null) {
-      // If no result found, fetch it from the API
-      userData = await _usersProvider.getUser(userId);
-      DBProvider.db.newUser(userData);
-    }
+  Future getUserById(int userId) async {
+    UserModel userData = await _usersProvider.getUserById(userId);
 
     _userController.sink.add(userData);
   }
 
   Future forceGetUsers() async {
-    List<UserModel> usersList = await _usersProvider.getUsers();
-
-    DBProvider.db.newUsers(usersList);
+    List<UserModel> usersList = await _usersProvider.forceDownloadUsers();
 
     _usersController.sink.add(usersList);
   }
